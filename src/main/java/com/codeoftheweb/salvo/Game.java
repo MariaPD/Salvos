@@ -8,11 +8,14 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import java.time.LocalDateTime;
 import javax.persistence.OneToMany;
+import java.util.HashSet;
+import java.util.LinkedHashMap;
+import java.util.Map;
 import java.util.Set;
 
 @Entity
 public class Game {
-
+    //Attributes
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "native")
     @GenericGenerator(name = "native", strategy = "native")
@@ -20,24 +23,45 @@ public class Game {
 
     private LocalDateTime fecha;
 
+    @OneToMany(mappedBy="game", fetch=FetchType.EAGER)
+    Set<GamePlayer> gamePlayers = new HashSet<>();
+
+    //Constructors
     public Game() { }
 
     public Game(LocalDateTime fecha) {
         this.fecha = fecha;
     }
 
+    //Methods
     public Long getID() {
         return id;
     }
 
     public LocalDateTime getFecha () {return fecha;}
 
-    @OneToMany(mappedBy="game", fetch=FetchType.EAGER)
-    Set<GamePlayer> gamePlayers;
+    public Set<GamePlayer> getGamePlayers() {
+        return gamePlayers;
+    }
 
     public void addGamePlayers(GamePlayer gamePlayer) {
         gamePlayer.setGame(this);
         gamePlayers.add(gamePlayer);
+    }
+
+    public Map<String, Object> makeGameDTO() {
+
+        return new LinkedHashMap<String, Object>(){{
+            put("id", id);
+            put("created", fecha);
+            put("gameplayer", gamePlayers.stream().map(GamePlayer::makeGamePlayerDTO));
+        }};
+
+/*        Map<String, Object> dto = new LinkedHashMap<String, Object>();
+        dto.put("id", getID());
+        dto.put("created", getFecha());
+        dto.put("gameplayer", getGamePlayers().stream().map(GamePlayer::makeGamePlayerDTO));
+        return dto;*/
     }
 
 }

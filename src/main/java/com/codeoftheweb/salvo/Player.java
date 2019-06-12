@@ -8,6 +8,9 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import java.util.HashSet;
+import java.util.LinkedHashMap;
+import java.util.Map;
 import java.util.Set;
 
 @Entity
@@ -34,17 +37,13 @@ public class Player {
         return id;
     }
 
-    public String getFirstName() {
-        return firstName;
-    }
+    public String getFirstName() {return firstName;}
 
     public void setFirstName(String firstName) {
         this.firstName = firstName;
     }
 
-    public String getLastName() {
-        return lastName;
-    }
+    public String getLastName() {return lastName;}
 
     public void setLastName(String lastName) {
         this.lastName = lastName;
@@ -63,11 +62,23 @@ public class Player {
     }
 
     @OneToMany(mappedBy="player", fetch=FetchType.EAGER)
-    Set<GamePlayer> gamePlayers;
+    Set<GamePlayer> gamePlayers = new HashSet<>();
 
-    @JsonIgnore
     public void addGamePlayer(GamePlayer gamePlayer) {
         gamePlayer.setPlayer(this);
         gamePlayers.add(gamePlayer);
+    }
+
+    public Map<String, Object> makePlayerDTO() {
+
+        return new LinkedHashMap<String, Object>(){{
+            put("id", id);
+            put("email", userName);
+        }};
+
+/*        Map<String, Object> dto = new LinkedHashMap<String, Object>();
+        dto.put("id", getID());
+        dto.put("email", getUserName());
+        return dto;*/
     }
 }
