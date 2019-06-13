@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Salvo!</title>
+</head>
+<body>
+    <div id="salvo">
+        <div>
+            <ol>
+                <template v-for="datosJuego in gameData">
+                    <li v-if="datosJuego.gameplayer.length > 1">{{datosJuego.created}}: {{datosJuego.gameplayer[0].player.email}}, {{datosJuego.gameplayer[1].player.email}}</li>
+                    <li v-else>{{datosJuego.created}}: {{datosJuego.gameplayer[0].player.email}}}</li>
+                </template>
+            </ol>
+        </div>
+    </div>
+<script src="https://unpkg.com/vue/dist/vue.js"></script>
+<script src="scripts/games.js"> </script>
+</body>
+</html>

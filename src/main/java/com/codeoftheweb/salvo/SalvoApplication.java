@@ -28,17 +28,20 @@ public class SalvoApplication {
 			Game game3 = new Game(LocalDateTime.now().plusHours(2));
 			//GamePlayer
 			GamePlayer gamePlayer1 = new GamePlayer(game1, player1);
-			GamePlayer gamePlayer2 = new GamePlayer(game2, player2);
-			GamePlayer gamePlayer3 = new GamePlayer(game3, player3);
+			GamePlayer gamePlayer2 = new GamePlayer(game1, player2);
+			GamePlayer gamePlayer3 = new GamePlayer(game2, player2);
+			GamePlayer gamePlayer4 = new GamePlayer(game3, player3);
 
 			//Functions
 			game1.addGamePlayers(gamePlayer1);
-			game2.addGamePlayers(gamePlayer2);
-			game3.addGamePlayers(gamePlayer3);
+			game1.addGamePlayers(gamePlayer2);
+			game2.addGamePlayers(gamePlayer3);
+			game3.addGamePlayers(gamePlayer4);
 
 			player1.addGamePlayer(gamePlayer1);
 			player2.addGamePlayer(gamePlayer2);
-			player3.addGamePlayer(gamePlayer3);
+			player2.addGamePlayer(gamePlayer3);
+			player3.addGamePlayer(gamePlayer4);
 
 
 			//Saved data
@@ -54,6 +57,7 @@ public class SalvoApplication {
 			repoGamePlayer.save(gamePlayer1);
 			repoGamePlayer.save(gamePlayer2);
 			repoGamePlayer.save(gamePlayer3);
+			repoGamePlayer.save(gamePlayer4);
 
 		};
 	}
