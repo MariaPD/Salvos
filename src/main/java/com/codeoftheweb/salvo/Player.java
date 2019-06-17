@@ -1,6 +1,5 @@
 package com.codeoftheweb.salvo;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.GenericGenerator;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -15,7 +14,7 @@ import java.util.Set;
 
 @Entity
 public class Player {
-
+    //Attributes
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "native")
     @GenericGenerator(name = "native", strategy = "native")
@@ -25,6 +24,10 @@ public class Player {
     private String lastName;
     private String userName;
 
+    @OneToMany(mappedBy="player", fetch=FetchType.EAGER)
+    Set<GamePlayer> gamePlayers = new HashSet<>();
+
+    //Constructors
     public Player() { }
 
     public Player(String first, String last, String user) {
@@ -33,6 +36,7 @@ public class Player {
         this.userName = user;
     }
 
+    //Methods
     public Long getID() {
         return id;
     }
@@ -60,9 +64,6 @@ public class Player {
     public String toString() {
         return firstName + " " + lastName;
     }
-
-    @OneToMany(mappedBy="player", fetch=FetchType.EAGER)
-    Set<GamePlayer> gamePlayers = new HashSet<>();
 
     public void addGamePlayer(GamePlayer gamePlayer) {
         gamePlayer.setPlayer(this);
