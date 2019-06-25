@@ -1,24 +1,38 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:v-bind="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <title>Ship Locations!</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    <link rel="stylesheet" href="/styles/game.css">
+    <link rel="stylesheet" href="styles/game.css">
 
 </head>
 <body>
+<div id="ships">
     <div class="container">
-        <ul>
-
-        </ul>
-
+         <table class="m-5 bg-info text-white">
+             <thead>
+                <tr>
+                    <th></th>
+                    <th v-for="numbers in numeros" class="p-4">{{numbers}}</th>
+                </tr>
+             </thead>
+             <tbody>
+                <tr v-for="letters in letras">
+                    <td class="p-4 font-weight-bold">{{letters}}</td>
+                    <td v-for="numbers in numeros" v-bind:id="letters + numbers" class="p-4 border border-white"></td>
+                    <td class="p-4"></td>
+                </tr>
+                <tr>
+                    <td class="p-4"></td>
+                </tr>
+             </tbody>
+        </table>
+    </div>
     </div>
 
 
 <script src="https://unpkg.com/vue/dist/vue.js"></script>
 <script src="scripts/game.js"> </script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
-
 </body>
 </html>
