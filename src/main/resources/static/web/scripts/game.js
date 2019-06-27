@@ -5,7 +5,7 @@ var vm = new Vue({
         numeros: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
         letras: ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J"],
         gpID: new URL(window.location.href).searchParams.get("gp"),
-        gamePlayData: {}
+        gamePlayData: []
     },
     methods: {
 
@@ -20,16 +20,23 @@ var vm = new Vue({
             }).then(function (json) {
                 vm.gamePlayData = json;
                 console.log("Juegos", vm.gamePlayData);
+                vm.shipsLocaton(vm.gamePlayData);
+                vm.showActivePlayer(vm.gamePlayData);
+                vm.showPasivePlayer(vm.gamePlayData);
             }).catch(function (error) {
                 console.log("Request failed:" + error.message);
             });
+        },
+         shipsLocaton: function(data) {
+            data.ships.flatMap(ship => ship.locations)
+                .forEach(position => document.getElementById(position).style.backgroundColor = '#6c757d');
+        },
+        showActivePlayer: function () {
+             return this.gamePlayData.gameplayer.find(gameplayers => gameplayers.id == this.gpID).player.email;
+        },
+        showPasivePlayer: function () {
+            return this.gamePlayData.gameplayer.find(gameplayers => gameplayers.id != this.gpID).player.email;
         }
-/*         shipsLocaton: function() {
-            if location.ship = true
-                return bg-secondary
-            else no change
-
-        }*/
 
     },
     mounted() {

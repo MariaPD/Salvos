@@ -9,7 +9,12 @@
 </head>
 <body>
 <div id="ships">
-    <div class="container">
+    <div class="container-fluid">
+        <div class="mt-4 d-flex justify-content-center">
+            <h2 v-if="gamePlayData.gameplayer <=1">{{showActivePlayer()}}</h2>
+            <h2 v-else-if="gamePlayData.gameplayer"> <span class="font-weight-bold">{{showActivePlayer()}}</span> vs <span class="text-secondary">{{showPasivePlayer()}}</span></h2>
+        </div>
+        <div class="d-flex justify-content-center">
          <table class="m-5 bg-info text-white">
              <thead>
                 <tr>
@@ -20,7 +25,7 @@
              <tbody>
                 <tr v-for="letters in letras">
                     <td class="p-4 font-weight-bold">{{letters}}</td>
-                    <td v-for="numbers in numeros" v-bind:id="letters + numbers" class="p-4 border border-white"></td>
+                    <td v-for="numbers in numeros" v-bind:id="letters+numbers" class="p-4 border border-white"></td>
                     <td class="p-4"></td>
                 </tr>
                 <tr>
@@ -28,8 +33,9 @@
                 </tr>
              </tbody>
         </table>
+        </div>
     </div>
-    </div>
+</div>
 
 
 <script src="https://unpkg.com/vue/dist/vue.js"></script>
