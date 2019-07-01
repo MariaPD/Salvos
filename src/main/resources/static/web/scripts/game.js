@@ -21,23 +21,42 @@ var vm = new Vue({
                 vm.gamePlayData = json;
                 console.log("Juegos", vm.gamePlayData);
                 vm.shipsLocaton(vm.gamePlayData);
-                vm.showActivePlayer(vm.gamePlayData);
-                vm.showPasivePlayer(vm.gamePlayData);
+                vm.showActivePlayer();
+                vm.showPasivePlayer();
+                vm.salvoFired();
+                vm.salvoHits();
             }).catch(function (error) {
                 console.log("Request failed:" + error.message);
             });
         },
          shipsLocaton: function(data) {
             data.ships.flatMap(ship => ship.locations)
-                .forEach(position => document.getElementById(position).style.backgroundColor = '#6c757d');
+                .forEach(position => document.getElementById("ship" + position).style.backgroundColor = '#6C757D');
         },
         showActivePlayer: function () {
              return this.gamePlayData.gameplayer.find(gameplayers => gameplayers.id == this.gpID).player.email;
         },
         showPasivePlayer: function () {
             return this.gamePlayData.gameplayer.find(gameplayers => gameplayers.id != this.gpID).player.email;
-        }
+        },
+        salvoFired: function () {
+            let playerID = this.gamePlayData.gameplayer.find(gameplayers => gameplayers.id == this.gpID).player.id;
 
+            this.gamePlayData.salvos.filter(salvo => (salvo.player == playerID))
+                .forEach(salvo => salvo.locations.forEach(position => {
+                    document.getElementById("salvo" + position).style.backgroundColor = '#E5BE01';
+                    document.getElementById("salvo" + position).innerHTML = salvo.turn;
+                }))
+        },
+        salvoHits: function () {
+            let playerID = this.gamePlayData.gameplayer.find(gameplayers => gameplayers.id != this.gpID).player.id;
+
+            this.gamePlayData.salvos.filter(salvo => (salvo.player == playerID))
+                .forEach(salvo => salvo.locations.forEach(position => {
+                    document.getElementById("ship" + position).style.backgroundColor = '#9B111E';
+                    document.getElementById("ship" + position).innerHTML = salvo.turn;
+                }))
+        }
     },
     mounted() {
         this.obtenerGamePlay();
