@@ -27,6 +27,9 @@ public class Player {
     @OneToMany(mappedBy="player", fetch=FetchType.EAGER)
     Set<GamePlayer> gamePlayers = new HashSet<>();
 
+    @OneToMany(mappedBy="player", fetch=FetchType.EAGER)
+    Set<Score> scores = new HashSet<>();
+
     //Constructors
     public Player() { }
 
@@ -65,9 +68,22 @@ public class Player {
         return firstName + " " + lastName;
     }
 
+    public Set<GamePlayer> getGamePlayers() {
+        return gamePlayers;
+    }
+
     public void addGamePlayer(GamePlayer gamePlayer) {
         gamePlayer.setPlayer(this);
         gamePlayers.add(gamePlayer);
+    }
+
+    public Set<Score> getScore() {
+        return scores;
+    }
+
+    public void addScore(Score score) {
+        score.setPlayer(this);
+        scores.add(score);
     }
 
     public Map<String, Object> makePlayerDTO() {

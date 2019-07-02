@@ -17,7 +17,7 @@ public class SalvoApplication {
 	}
 
 	@Bean
-	public CommandLineRunner initData(PlayerRepository repoPlayer, GameRepository repoGame, GamePlayerRepository repoGamePlayer, ShipRepository repoShip, SalvoRepository repoSalvo) {
+	public CommandLineRunner initData(PlayerRepository repoPlayer, GameRepository repoGame, GamePlayerRepository repoGamePlayer, ShipRepository repoShip, SalvoRepository repoSalvo, ScoreRepository repoScore) {
 		return (args) -> {
 			//Players
 			Player player1 = new Player("Jack", "Bauer", "j.bauer@ctu.gov");
@@ -99,6 +99,14 @@ public class SalvoApplication {
 			Salvo salvo20 = new Salvo(2, Arrays.asList("C6", "D6", "E6"));
 			Salvo salvo21 = new Salvo(3, Arrays.asList("H1", "H8"));
 
+			Score score1 = new Score (game1, player1, 1.0);
+			Score score2 = new Score (game1, player2, 0.0);
+			Score score3 = new Score (game2, player1, 0.5);
+			Score score4 = new Score (game2, player2, 0.5);
+			Score score5 = new Score (game3, player2, 1.0);
+			Score score6 = new Score (game3, player4, 0.0);
+			Score score7 = new Score (game4, player2, 0.5);
+			Score score8 = new Score (game4, player1, 0.5);
 
 			//Functions
 			game1.addGamePlayers(gamePlayer1);
@@ -181,6 +189,25 @@ public class SalvoApplication {
 			gamePlayer10.addSalvo(salvo20);
 			gamePlayer10.addSalvo(salvo21);
 
+			game1.addScore(score1);
+			game1.addScore(score2);
+			game2.addScore(score3);
+			game2.addScore(score4);
+			game3.addScore(score5);
+			game3.addScore(score6);
+			game4.addScore(score7);
+			game4.addScore(score8);
+
+			player1.addScore(score1);
+			player2.addScore(score2);
+			player1.addScore(score3);
+			player2.addScore(score4);
+			player2.addScore(score5);
+			player4.addScore(score6);
+			player2.addScore(score7);
+			player1.addScore(score8);
+
+
 			//Saved data
 			repoPlayer.save(player1);
 			repoPlayer.save(player2);
@@ -260,6 +287,16 @@ public class SalvoApplication {
 			repoSalvo.save(salvo19);
 			repoSalvo.save(salvo20);
 			repoSalvo.save(salvo21);
+
+			repoScore.save(score1);
+			repoScore.save(score2);
+			repoScore.save(score3);
+			repoScore.save(score4);
+			repoScore.save(score5);
+			repoScore.save(score6);
+			repoScore.save(score7);
+			repoScore.save(score8);
+
 
 		};
 	}
