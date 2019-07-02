@@ -50,11 +50,18 @@ var vm = new Vue({
         },
         salvoHits: function () {
             let playerID = this.gamePlayData.gameplayer.find(gameplayers => gameplayers.id != this.gpID).player.id;
+            let shipsLocations = this.gamePlayData.ships.flatMap(ship => ship.locations);
 
             this.gamePlayData.salvos.filter(salvo => (salvo.player == playerID))
                 .forEach(salvo => salvo.locations.forEach(position => {
-                    document.getElementById("ship" + position).style.backgroundColor = '#9B111E';
-                    document.getElementById("ship" + position).innerHTML = salvo.turn;
+                    if(shipsLocations.includes(position)){
+                        document.getElementById("ship" + position).style.backgroundColor = '#815762';
+                        document.getElementById("ship" + position).innerHTML = salvo.turn;
+                    }
+                    else {
+                        document.getElementById("ship" + position).style.backgroundColor = '#9B111E';
+                        document.getElementById("ship" + position).innerHTML = salvo.turn;
+                    }
                 }))
         }
     },
