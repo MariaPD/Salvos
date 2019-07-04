@@ -3,6 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <title>Salvo!</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="styles/game.css">
 </head>
 <body>
     <div id="salvo">
@@ -10,9 +12,31 @@
             <ol>
                 <template v-for="datosJuego in gameData">
                     <li v-if="datosJuego.gameplayer.length > 1">{{datosJuego.created}}: {{datosJuego.gameplayer[0].player.email}}, {{datosJuego.gameplayer[1].player.email}}</li>
-                    <li v-else>{{datosJuego.created}}: {{datosJuego.gameplayer[0].player.email}}}</li>
+                    <li v-else>{{datosJuego.created}}: {{datosJuego.gameplayer[0].player.email}}</li>
                 </template>
             </ol>
+        </div>
+        <div>
+            <table>
+                <thead>
+                    <tr>
+                        <th class="border border-dark">Name</th>
+                        <th class="border border-dark">Total</th>
+                        <th class="border border-dark">Won</th>
+                        <th class="border border-dark">Lost</th>
+                        <th class="border border-dark">Tied</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-for="resultados in mostrarResultados">
+                        <td class="border border-dark">{{resultados.email}}</td>
+                        <td class="border border-dark">{{resultados.total}}</td>
+                        <td class="border border-dark">{{resultados.wins}}</td>
+                        <td class="border border-dark">{{resultados.losts}}</td>
+                        <td class="border border-dark">{{resultados.ties}}</td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
     </div>
 <script src="https://unpkg.com/vue/dist/vue.js"></script>

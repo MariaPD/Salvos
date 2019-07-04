@@ -69,11 +69,6 @@ public class Game {
             put("gameplayer", gamePlayers.stream().map(GamePlayer::makeGamePlayerDTO));
         }};
 
-/*        Map<String, Object> dto = new LinkedHashMap<String, Object>();
-        dto.put("id", getID());
-        dto.put("created", getFecha());
-        dto.put("gameplayer", getGamePlayers().stream().map(GamePlayer::makeGamePlayerDTO));
-        return dto;*/
     }
 
 }

@@ -7,10 +7,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
-import java.util.HashSet;
-import java.util.LinkedHashMap;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 @Entity
 public class Player {
@@ -91,11 +88,29 @@ public class Player {
         return new LinkedHashMap<String, Object>(){{
             put("id", id);
             put("email", userName);
+            put("score", scores.stream().map(Score::makeScoreDTO));
+            put("wins", countWins());
+            put("losts", countLosts());
+            put("ties", countTies());
+            put("total", sumScores());
         }};
 
-/*        Map<String, Object> dto = new LinkedHashMap<String, Object>();
-        dto.put("id", getID());
-        dto.put("email", getUserName());
-        return dto;*/
     }
+
+    public long countWins() {
+        return scores.stream().filter(resultado -> resultado.getScore() == 1.0).count();
+    }
+
+    public long countLosts() {
+        return scores.stream().filter(resultado -> resultado.getScore() == 0.0).count();
+    }
+
+    public long countTies() {
+        return scores.stream().filter(resultado -> resultado.getScore() == 0.5).count();
+    }
+
+    public Double sumScores() {
+        return scores.stream().map(resultado -> resultado.getScore()).reduce((acc, totalScore) -> acc + totalScore).orElse(0.0);
+    }
+
 }

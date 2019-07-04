@@ -36,6 +36,7 @@ public class SalvoController {
                put("ships", gamePlayer.getShips().stream().map(ship -> ship.makeShipDTO()).collect(toList()));
                put("salvos", game.getGamePlayers().stream().flatMap(gameplayer -> gameplayer.getSalvos().stream())
                        .map(salvo -> salvo.makeSalvoDTO()));
+
            }};
        }
        else {
