@@ -1,9 +1,11 @@
 package com.codeoftheweb.salvo;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.*;
 import static java.util.stream.Collectors.toList;
@@ -42,8 +44,33 @@ public class SalvoController {
        else {
            return null;
        }
-
-
     }
 
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
+    @Autowired
+    private PlayerRepository repoPlayer;
+
+    @RequestMapping(path = "/players", method = RequestMethod.POST)
+    public ResponseEntity<Object> register(
+            @RequestParam String firstName, @RequestParam String last,
+            @RequestParam String user, @RequestParam String password) {
+
+        if (firstName.isEmpty() || last.isEmpty() || user.isEmpty() || password.isEmpty()) {
+            return new ResponseEntity<>("Missing data", HttpStatus.FORBIDDEN);
+        }
+
+        if (repoPlayer.findByUserName(user) !=  null) {
+            return new ResponseEntity<>("Name already in use", HttpStatus.FORBIDDEN);
+        }
+
+        repoPlayer.save(new Player(firstName, last, user, passwordEncoder.encode(password)));
+        return new ResponseEntity<>(HttpStatus.CREATED);
+    }
+
+    @RequestMapping("/players")
+    public Player getAll(Authentication authentication) {
+        return repoPlayer.findByUserName(authentication.getName());
+    }
 }

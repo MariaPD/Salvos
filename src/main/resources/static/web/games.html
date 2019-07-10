@@ -9,6 +9,12 @@
 <body>
     <div id="salvo">
         <div>
+                <label>Name: <input type="text" name="username" id="username"></label>
+                <label>Password: <input type="text" name="password" id="password"></label>
+
+                <button @click="login()">Log in</button>
+        </div>
+        <div>
             <ol>
                 <template v-for="datosJuego in gameData">
                     <li v-if="datosJuego.gameplayer.length > 1">{{datosJuego.created}}: {{datosJuego.gameplayer[0].player.email}}, {{datosJuego.gameplayer[1].player.email}}</li>
