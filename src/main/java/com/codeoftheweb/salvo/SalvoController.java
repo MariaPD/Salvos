@@ -14,19 +14,46 @@ import static java.util.stream.Collectors.toList;
 @RestController
 public class SalvoController {
 
+    //Creates JSON api/games
     @Autowired
     private GameRepository repoGame;
 
-    @RequestMapping("/games")
+    /*    @RequestMapping("/games")
     public List<Map<String,Object>> getAll() {
         return repoGame.findAll().stream().map(game -> game.makeGameDTO()).collect(toList());
+    }*/
+
+    // getAll() es el nombre de mi función / findAll() es una función propia de repositorio
+    @RequestMapping("/games")
+    public Map<String,Object> getAll(Authentication auth) {
+        Optional<Player> optionalPlayer = getPlayers(auth);
+        return new LinkedHashMap<String, Object>(){{
+            put("games", repoGame.findAll().stream().map(game -> game.makeGameDTO()).collect(toList()));
+            put("player", optionalPlayer.map(player -> player.makePlayerAuthenticatedDTO()).orElse(null));
+        }};
     }
 
+    //Player es el tipo de dato que voy a devolver. Player es el tipo del optional. Hacemos el optional porque sabemos que no queremos devolver un string o un list
+    //Cuando creo una clase defino los objetos y son del tipo del nombre de la clase
+
+    public Optional<Player> getPlayers(Authentication auth){
+        if(auth == null) {
+            return Optional.empty();
+        }
+        else {
+            return repoPlayer.findByUserName(auth.getName());
+        }
+    };
+
+
+    //Creates JSON api/game_view
     @Autowired
     private GamePlayerRepository repoGamePlayer;
 
+    //Envíamos la información de un juego de un gamplayer solamente
     @RequestMapping("/game_view/{gameplayerID}")
     public Map<String,Object> findGamePlayer(@PathVariable Long gameplayerID) {
+        //Buscamos sólo el que corresponda con el ID de la url, usamos un optional porque si el id no existe no se puede ejecutar el resto de la función
        Optional<GamePlayer> optionalGamePlayer = repoGamePlayer.findById(gameplayerID);
        if (optionalGamePlayer.isPresent()){
            Game game = optionalGamePlayer.get().getGame();
@@ -49,6 +76,7 @@ public class SalvoController {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+    //Creates new registered players
     @Autowired
     private PlayerRepository repoPlayer;
 
@@ -69,8 +97,4 @@ public class SalvoController {
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
-    @RequestMapping("/players")
-    public Player getAll(Authentication authentication) {
-        return repoPlayer.findByUserName(authentication.getName());
-    }
 }

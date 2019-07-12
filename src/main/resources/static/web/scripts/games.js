@@ -25,11 +25,11 @@ var vm = new Vue({
         },
         
         filtrarResultados: function () {
-            let arrayId = Array.from(new Set(this.gameData.flatMap(juego => juego.gameplayer)
+            let arrayId = Array.from(new Set(this.gameData.games.flatMap(juego => juego.gameplayer)
                 .map(jugador => jugador.player.id)));
 
 
-            this.mostrarResultados = arrayId.map(id => this.gameData.flatMap(juego => juego.gameplayer)
+            this.mostrarResultados = arrayId.map(id => this.gameData.games.flatMap(juego => juego.gameplayer)
                 .map(jugador => jugador.player)
                 .find(player => player.id == id));
 
@@ -51,7 +51,7 @@ var vm = new Vue({
                 console.log(response)
                 if (response.ok) {
                     console.log("Funciona");
-                    //window.location.reload();
+                    window.location.reload();
                 }
                 else console.log("No funciona");
             }).catch(function (error) {

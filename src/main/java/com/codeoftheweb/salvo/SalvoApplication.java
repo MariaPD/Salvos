@@ -26,6 +26,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.time.LocalDateTime;
 import java.util.Arrays;
+import java.util.Optional;
 
 @SpringBootApplication
 public class SalvoApplication extends SpringBootServletInitializer {
@@ -339,9 +340,9 @@ class WebSecurityConfiguration extends GlobalAuthenticationConfigurerAdapter {
 	@Override
 	public void init(AuthenticationManagerBuilder auth) throws Exception {
 		auth.userDetailsService(inputName-> {
-			Player player = playerRepository.findByUserName(inputName);
-			if (player != null) {
-				return new User(player.getUserName(), player.getPassword(),
+			Optional<Player> player = playerRepository.findByUserName(inputName);
+			if (player.isPresent()) {
+				return new User(player.get().getUserName(), player.get().getPassword(),
 						AuthorityUtils.createAuthorityList("USER"));
 			} else {
 				throw new UsernameNotFoundException("Unknown user: " + inputName);

@@ -107,6 +107,13 @@ public class Player {
 
     }
 
+    public Map<String, Object> makePlayerAuthenticatedDTO() {
+        return new LinkedHashMap<String, Object>(){{
+            put("id", id);
+            put("email", userName);
+        }};
+    }
+
     public long countWins() {
         return scores.stream().filter(resultado -> resultado.getScore() == 1.0).count();
     }
