@@ -51,7 +51,7 @@ var vm = new Vue({
                 console.log(response)
                 if (response.ok) {
                     console.log("Funciona");
-                    window.location.reload();
+                    /*window.location.reload();*/
                 }
                 else console.log("No funciona");
             }).catch(function (error) {
@@ -66,10 +66,43 @@ var vm = new Vue({
             }).then(response => {
                 console.log(response)
                 if (response.ok) {
-                    window.location.reload();
+                    console.log("Funciona Logout");
+                    /*window.location.reload();*/
                 }
             }).catch(function (error) {
                 console.log("Request failed: " + error.message);
+            });
+        },
+
+        signup () {
+            let firtName = "Maria"
+            let lastName = "Platon"
+            let userName = document.getElementById("username").value;
+            let password = document.getElementById("password").value;
+
+            fetch("http://localhost:8080/api/players", {
+                method: "POST",
+                credentials: 'include',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json'
+                },
+                body: JSON.stringify( {
+                    firstName: firtName,
+                    lastName: lastName,
+                    userName: userName,
+                    password: password
+                })
+            }).then(response => {
+                console.log(response)
+                if (response.ok) {
+                    console.log("Funciona");
+                    /*window.location.reload();*/
+                }
+                else console.log("No funciona");
+            }).catch(function (error) {
+                console.log("Request failed: " + error.message);
+
             });
         }
 

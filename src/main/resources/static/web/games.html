@@ -9,10 +9,19 @@
 <body>
     <div id="salvo">
         <div>
+            <!--if login successful show first name and last name-->
+            <p></p>
+        </div>
+        <div>
                 <label>Name: <input type="text" name="username" id="username"></label>
                 <label>Password: <input type="text" name="password" id="password"></label>
 
+<!--            if login false, show login hide logout
+            if logint true, hide login show logout-->
+
                 <button @click="login()">Log in</button>
+                <button @click="logout()">Log out</button>
+                <button @click="signup()">Sign up</button>
         </div>
         <div>
             <ol>
