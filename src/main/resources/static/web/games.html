@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:v-bind="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <title>Salvo!</title>
@@ -9,19 +9,23 @@
 <body>
     <div id="salvo">
         <div>
-            <!--if login successful show first name and last name-->
-            <p></p>
+            <p id="logeado"></p>
         </div>
         <div>
+            <!--if login false, show login hide logout
+            if logint true, hide login show logout-->
+
+                <label>First Name: <input type="text" name="firstname" id="firstname"></label>
+                <label>Last Name: <input type="text" name="lastname" id="lastname"></label>
                 <label>Name: <input type="text" name="username" id="username"></label>
                 <label>Password: <input type="text" name="password" id="password"></label>
 
-<!--            if login false, show login hide logout
-            if logint true, hide login show logout-->
-
                 <button @click="login()">Log in</button>
-                <button @click="logout()">Log out</button>
                 <button @click="signup()">Sign up</button>
+
+                <button @click="logout()">Log out</button>
+
+
         </div>
         <div>
             <ol>

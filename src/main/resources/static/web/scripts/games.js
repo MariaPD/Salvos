@@ -18,6 +18,7 @@ var vm = new Vue({
                 vm.gameData = json;
                 vm.mostrarResultados = vm.gameData;
                 vm.filtrarResultados();
+                vm.showPlayerName();
                 console.log("Juegos", vm.gameData);
             }).catch(function (error) {
                 console.log("Request failed:" + error.message);
@@ -51,7 +52,7 @@ var vm = new Vue({
                 console.log(response)
                 if (response.ok) {
                     console.log("Funciona");
-                    /*window.location.reload();*/
+                    window.location.reload();
                 }
                 else console.log("No funciona");
             }).catch(function (error) {
@@ -67,7 +68,7 @@ var vm = new Vue({
                 console.log(response)
                 if (response.ok) {
                     console.log("Funciona Logout");
-                    /*window.location.reload();*/
+                    window.location.reload();
                 }
             }).catch(function (error) {
                 console.log("Request failed: " + error.message);
@@ -75,8 +76,8 @@ var vm = new Vue({
         },
 
         signup () {
-            let firtName = "Maria"
-            let lastName = "Platon"
+            let firstName = document.getElementById("firstname").value;
+            let lastName = document.getElementById("lastname").value;
             let userName = document.getElementById("username").value;
             let password = document.getElementById("password").value;
 
@@ -88,7 +89,7 @@ var vm = new Vue({
                     'Accept': 'application/json'
                 },
                 body: JSON.stringify( {
-                    firstName: firtName,
+                    firstName: firstName,
                     lastName: lastName,
                     userName: userName,
                     password: password
@@ -97,13 +98,20 @@ var vm = new Vue({
                 console.log(response)
                 if (response.ok) {
                     console.log("Funciona");
-                    /*window.location.reload();*/
+                    window.location.reload();
                 }
                 else console.log("No funciona");
             }).catch(function (error) {
                 console.log("Request failed: " + error.message);
 
             });
+        },
+
+        //show the current user's name if there is a non-null value for player in the game data.
+        showPlayerName(){
+            if (this.gameData.player != null){
+                document.getElementById("logeado").innerHTML = this.gameData.player.email;
+            }
         }
 
     },
