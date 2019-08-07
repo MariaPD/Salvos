@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:v-bind="http://www.w3.org/1999/xhtml">
+<html lang="en" xmlns:v-bind="http://www.w3.org/1999/xhtml" xmlns:v-on="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <title>Salvo!</title>
@@ -8,57 +8,74 @@
 </head>
 <body>
     <div id="salvo">
-        <div>
+        <div class="container-fluid">
+            <h2 class="d-flex flex-row-reverse" v-if="gameData.player != null">{{gameData.player.email}}</h2>
+            <!--<div>
             <p id="logeado"></p>
-        </div>
-        <div>
-            <!--if login false, show login hide logout
-            if logint true, hide login show logout-->
-
-                <label>First Name: <input type="text" name="firstname" id="firstname"></label>
-                <label>Last Name: <input type="text" name="lastname" id="lastname"></label>
-                <label>Name: <input type="text" name="username" id="username"></label>
-                <label>Password: <input type="text" name="password" id="password"></label>
-
-                <button @click="login()">Log in</button>
-                <button @click="signup()">Sign up</button>
-
-                <button @click="logout()">Log out</button>
-
-
-        </div>
-        <div>
-            <ol>
-                <template v-for="datosJuego in gameData.games">
-                    <li v-if="datosJuego.gameplayer.length > 1">{{datosJuego.created}}: {{datosJuego.gameplayer[0].player.email}}, {{datosJuego.gameplayer[1].player.email}}</li>
-                    <li v-else>{{datosJuego.created}}: {{datosJuego.gameplayer[0].player.email}}</li>
-                </template>
-            </ol>
-        </div>
-        <div>
-            <table>
-                <thead>
-                    <tr>
-                        <th class="border border-dark">Name</th>
-                        <th class="border border-dark">Total</th>
-                        <th class="border border-dark">Won</th>
-                        <th class="border border-dark">Lost</th>
-                        <th class="border border-dark">Tied</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr v-for="resultados in mostrarResultados">
-                        <td class="border border-dark">{{resultados.email}}</td>
-                        <td class="border border-dark">{{resultados.total}}</td>
-                        <td class="border border-dark">{{resultados.wins}}</td>
-                        <td class="border border-dark">{{resultados.losts}}</td>
-                        <td class="border border-dark">{{resultados.ties}}</td>
-                    </tr>
-                </tbody>
-            </table>
+            </div>-->
+            <div class="h6">
+                <div v-if="gameData.player == null">
+                    <div class="input-group-sm">
+                        <div class="h6 input-group-prepend">
+                            <span class="input-group-text">New Player</span>
+                        </div>
+                        <label><input type="text" name="firstname" id="firstname" placeholder="First Name"></label>
+                        <label><input type="text" name="lastname" id="lastname" placeholder="Last Name"></label>
+                        <button class="h6 text-secondary" @click="signup()">Sign up</button>
+                    </div>
+                    <br>
+                    <div class="input-group-sm">
+                        <div class="h6 input-group-prepend">
+                            <span class="input-group-text">Access</span>
+                        </div>
+                        <label><input type="text" name="username" id="username" placeholder="Email"></label>
+                        <label><input type="text" name="password" id="password" placeholder="Password"></label>
+                        <button class="h6 text-secondary" @click="login()">Log in</button>
+                    </div>
+                </div>
+                <div class="d-flex flex-row-reverse" v-else>
+                    <button class="text-secondary" @click="logout()">Log out</button>
+                </div>
+            </div>
+            <div>
+                <button @click="createGame()" v-if="showCreateButton()">Create Game</button>
+            </div>
+            <div class="mt-4 d-flex justify-content-around">
+                <div>
+                    <ol class="list-group">
+                        <template v-for="datosJuego in gameData.games">
+                            <li class="list-group-item" v-if="datosJuego.gameplayer.length > 1">{{datosJuego.created}}: {{datosJuego.gameplayer[0].player.email}}, {{datosJuego.gameplayer[1].player.email}} <button @click="sendToGame(datosJuego)" v-if="showPlayButton(datosJuego)">Play Game</button> </li>
+                            <li class="list-group-item" v-else>{{datosJuego.created}}: {{datosJuego.gameplayer[0].player.email}} <button @click="sendToGame(datosJuego)" v-if="showPlayButton(datosJuego)">Play Game</button> <button v-else-if="showJoinButton(datosJuego)">Join Game</button> </li>
+                        </template>
+                    </ol>
+                </div>
+                <div>
+                    <table class="table table-dark table-striped">
+                        <thead>
+                            <tr>
+                                <th class="border border-dark">Name</th>
+                                <th class="border border-dark">Total</th>
+                                <th class="border border-dark">Won</th>
+                                <th class="border border-dark">Lost</th>
+                                <th class="border border-dark">Tied</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr v-for="resultados in mostrarResultados">
+                                <td class="border border-dark">{{resultados.email}}</td>
+                                <td class="border border-dark">{{resultados.total}}</td>
+                                <td class="border border-dark">{{resultados.wins}}</td>
+                                <td class="border border-dark">{{resultados.losts}}</td>
+                                <td class="border border-dark">{{resultados.ties}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         </div>
     </div>
 <script src="https://unpkg.com/vue/dist/vue.js"></script>
+<script src="https://unpkg.com/vue-router/dist/vue-router.js"></script>
 <script src="scripts/games.js"> </script>
 </body>
 </html>

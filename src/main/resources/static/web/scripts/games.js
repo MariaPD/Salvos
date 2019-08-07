@@ -18,7 +18,7 @@ var vm = new Vue({
                 vm.gameData = json;
                 vm.mostrarResultados = vm.gameData;
                 vm.filtrarResultados();
-                vm.showPlayerName();
+                /*vm.showPlayerName();*/
                 console.log("Juegos", vm.gameData);
             }).catch(function (error) {
                 console.log("Request failed:" + error.message);
@@ -108,12 +108,68 @@ var vm = new Vue({
         },
 
         //show the current user's name if there is a non-null value for player in the game data.
-        showPlayerName(){
+        /*showPlayerName(){
             if (this.gameData.player != null){
                 document.getElementById("logeado").innerHTML = this.gameData.player.email;
             }
-        }
+        }*/
 
+        showPlayButton(game) {
+           if (this.gameData.player != null && game.gameplayer.map(gp => gp.player.id).includes(this.gameData.player.id)){
+               return true;
+           } else {
+               return false;
+           }
+        },
+        /* v-if="gameData.player != null && gameData.games.gameplayer.map(gp => gp.player.id).includes(gameplayer.player.id)"*/
+
+        createGame () {
+            fetch("http://localhost:8080/api/games", {
+                method: "POST",
+                credentials: 'include',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json'
+                },
+            }).then(response => {
+                console.log(response)
+                if (response.ok) {
+                    console.log("You are logged in");
+                    return response.json();
+                }
+                else console.log("You are NOT logged in");
+            }).then(function (json) {
+                window.location.href = "http://localhost:8080/web/game.html?gp=" + json.gpid
+                console.log("GPID", json);
+            }).catch(function (error) {
+                console.log("Request failed: " + error.message);
+
+            });
+        },
+
+        showCreateButton() {
+            if (this.gameData.player != null){
+                return true;
+            } else {
+                return false;
+            }
+        },
+
+        /*If the request is successful, the JavaScript should send the browser to the URL game.html?gp=mm where mm is the new game player ID*/
+
+        sendToGame(game) {
+            let newGamePlayerID = game.gameplayer.filter(gp => gp.player.id == this.gameData.player.id)[0].id;
+            console.log("hola", "hola");
+            window.location.href = "http://localhost:8080/web/game.html?gp=" + newGamePlayerID
+        },
+
+        showJoinButton(game) {
+            if (this.gameData.player != null && !game.gameplayer.map(gp => gp.player.id).includes(this.gameData.player.id)){
+                return true;
+            } else {
+                return false;
+            }
+        },
     },
 
     mounted() {

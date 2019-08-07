@@ -63,7 +63,20 @@ var vm = new Vue({
                         document.getElementById("ship" + position).innerHTML = salvo.turn;
                     }
                 }))
-        }
+        },
+        /*backToGames() {
+            fetch("http://localhost:8080/api/logout", {
+                method: "POST"
+            }).then(response => {
+                console.log(response)
+                if (response.ok) {
+                    console.log("Funciona Logout");
+                    window.location.reload();
+                }
+            }).catch(function (error) {
+                console.log("Request failed: " + error.message);
+            });
+        }*/
     },
     mounted() {
         this.obtenerGamePlay();
